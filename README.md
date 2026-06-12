@@ -19,6 +19,9 @@
   <a href="./README_zh.md">
     <img src="https://img.shields.io/badge/%E4%B8%AD%E6%96%87-README-b06a4e" alt="中文">
   </a>
+  <a href="#feishu-group">
+    <img src="https://img.shields.io/badge/Feishu-Group-2f6bff" alt="Feishu Group">
+  </a>
 </p>
 
 <p align="center">
@@ -210,3 +213,12 @@ When training on multiple domains jointly, FTP-1 automatically uses its heteroge
 ## 6. Acknowledgment
 
 This repository is based on the code from [OpenPi](https://github.com/Physical-Intelligence/openpi), [MotionTrans](https://motiontrans.github.io/), [MotionTrans-Pi](https://github.com/michaelyuancb/motiontrans-pi0), [UniVTAC](https://github.com/univtac/UniVTAC) and [T3-Encoder](https://github.com/alanzjl/t3). We sincerely appreciate their contribution to the open-source community, which have significantly supported this project. We also sincerely thank our AI-collaborators [Codex](https://chatgpt.com/codex/) and [ClaudeCode](https://code.claude.com/).
+
+<a id="feishu-group"></a>
+## 7. Feishu Group / 飞书交流群
+
+<p align="center">
+  <a href="./assets/FTP1_feishugroup.jpg">
+    <img src="./assets/FTP1_feishugroup.jpg" alt="Feishu Group / 飞书交流群" width="320">
+  </a>
+</p>

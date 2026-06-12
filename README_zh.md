@@ -19,6 +19,9 @@
   <a href="./README_zh.md">
     <img src="https://img.shields.io/badge/%E4%B8%AD%E6%96%87-README-b06a4e" alt="中文">
   </a>
+  <a href="#feishu-group">
+    <img src="https://img.shields.io/badge/Feishu-Group-2f6bff" alt="Feishu Group">
+  </a>
 </p>
 
 <p align="center">
@@ -208,3 +211,12 @@ bash scripts/shell/eval_ftp1_batch.sh
 ## 6. 致谢
 
 本仓库基于 [OpenPi](https://github.com/Physical-Intelligence/openpi)、[MotionTrans](https://motiontrans.github.io/)、[MotionTrans-Pi](https://github.com/michaelyuancb/motiontrans-pi0)、[UniVTAC](https://github.com/univtac/UniVTAC) 和 [T3-Encoder](https://github.com/alanzjl/t3) 的代码实现。我们衷心感谢这些开源项目对本工作的支持与贡献。同时，也感谢我们的 AI 协作伙伴 [Codex](https://chatgpt.com/codex/) 和 [ClaudeCode](https://code.claude.com/)。
+
+<a id="feishu-group"></a>
+## 7. Feishu Group / 飞书交流群
+
+<p align="center">
+  <a href="./assets/FTP1_feishugroup.jpg">
+    <img src="./assets/FTP1_feishugroup.jpg" alt="Feishu Group / 飞书交流群" width="320">
+  </a>
+</p>
