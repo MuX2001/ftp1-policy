@@ -207,4 +207,4 @@ bash scripts/shell/eval_ftp1_batch.sh
 <a id="acknowledgment-zh"></a>
 ## 6. 致谢
 
-本仓库基于 [OpenPi](https://github.com/Physical-Intelligence/openpi)、[MotionTrans](https://motiontrans.github.io/)、[MotionTrans-Pi](https://github.com/michaelyuancb/motiontrans-pi0) 和 [T3-Encoder](https://github.com/alanzjl/t3) 的代码实现。我们衷心感谢这些开源项目对本工作的支持与贡献。同时，也感谢我们的 AI 协作伙伴 [Codex](https://chatgpt.com/codex/) 和 [ClaudeCode](https://code.claude.com/)。
+本仓库基于 [OpenPi](https://github.com/Physical-Intelligence/openpi)、[MotionTrans](https://motiontrans.github.io/)、[MotionTrans-Pi](https://github.com/michaelyuancb/motiontrans-pi0)、[UniVTAC](https://github.com/univtac/UniVTAC) 和 [T3-Encoder](https://github.com/alanzjl/t3) 的代码实现。我们衷心感谢这些开源项目对本工作的支持与贡献。同时，也感谢我们的 AI 协作伙伴 [Codex](https://chatgpt.com/codex/) 和 [ClaudeCode](https://code.claude.com/)。
