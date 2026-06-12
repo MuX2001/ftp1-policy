@@ -7,7 +7,7 @@
   <a href="https://ftp1-policy.github.io/">
     <img src="https://img.shields.io/badge/%F0%9F%8C%90%20Project%20Page-Website-4f8f8b" alt="Project Page">
   </a>
-  <a href="https://huggingface.co/datasets/MJJJJ1064/ftp1_v0426_50kstep">
+  <a href="https://huggingface.co/MJJJJ1064/ftp1_v0426_50kstep">
     <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Model-ftp1__v0426__50kstep-f2a93b" alt="Model">
   </a>
   <a href="https://www.modelscope.cn/datasets/Eureka1064/FTP-1-Dataset">
@@ -59,8 +59,8 @@ This repository contains the FTP-1 codebase and tutorials for fine-tuning FTP-1 
 
 | Model Name | Huggingface Repository | ModelScope Repository  | Description |
 | :--- | :--- | :--- | :--- |
-| ftp1_pretrain_v0426_50kstep | [🤗 ftp1_v0426_50kstep](https://huggingface.co/datasets/MJJJJ1064/ftp1_v0426_50kstep) | [🤖 ftp1_v0426_50kstep](https://www.modelscope.cn/models/michaelyuancb/ftp1_v0426_50kstep)  | Our v0426 generalist tactile policy with 50k pretraining steps |
-| ftp1_univtac_finetune | [🤗 ftp1_univtac_finetune](https://huggingface.co/datasets/MJJJJ1064/ftp1_univtac_finetune) | [🤖 ftp1_univtac_finetune](https://www.modelscope.cn/models/michaelyuancb/ftp1_univtac_finetune)  | FTP-1-v0426 finetuned on UniVTAC benchmark, including 6 task checkpoints |
+| ftp1_pretrain_v0426_50kstep | [🤗 ftp1_v0426_50kstep](https://huggingface.co/MJJJJ1064/ftp1_v0426_50kstep) | [🤖 ftp1_v0426_50kstep](https://www.modelscope.cn/models/michaelyuancb/ftp1_v0426_50kstep)  | Our v0426 generalist tactile policy with 50k pretraining steps |
+| ftp1_univtac_finetune | [🤗 ftp1_univtac_finetune](https://huggingface.co/MJJJJ1064/ftp1_univtac_finetune) | [🤖 ftp1_univtac_finetune](https://www.modelscope.cn/models/michaelyuancb/ftp1_univtac_finetune)  | FTP-1-v0426 finetuned on UniVTAC benchmark, including 6 task checkpoints |
 
 - **Pretrained Datasets**
 

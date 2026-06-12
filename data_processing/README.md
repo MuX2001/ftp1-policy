@@ -7,7 +7,7 @@
   <a href="https://ftp1-policy.github.io/">
     <img src="https://img.shields.io/badge/%F0%9F%8C%90%20Project%20Page-Website-4f8f8b" alt="Project Page">
   </a>
-  <a href="https://huggingface.co/datasets/MJJJJ1064/ftp1_v0426_50kstep">
+  <a href="https://huggingface.co/MJJJJ1064/ftp1_v0426_50kstep">
     <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Model-ftp1__v0426__50kstep-f2a93b" alt="Model">
   </a>
   <a href="https://www.modelscope.cn/datasets/Eureka1064/FTP-1-Dataset">
