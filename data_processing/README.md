@@ -10,7 +10,7 @@
   <a href="https://huggingface.co/datasets/MJJJJ1064/ftp1_v0426_50kstep">
     <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Model-ftp1__v0426__50kstep-f2a93b" alt="Model">
   </a>
-  <a href="https://huggingface.co/datasets/MJJJJ1064/FTP-1-Dataset">
+  <a href="https://www.modelscope.cn/datasets/Eureka1064/FTP-1-Dataset">
     <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-FTP--1--Dataset-ff6f61" alt="Dataset">
   </a>
   <a href="./README.md">
