@@ -64,7 +64,7 @@ original dataset -> parser in data_processing/ -> standardized .zarr -> FTP1 tra
 
 In other words, this document describes the standardized intermediate zarr format that parser scripts should generate from raw source data before model training.
 
-[2026.06.29] You can also try [TLabel](https://github.com/liesliy/tlabel), a GUI-based data processing tools to export your tactile data with FTP-1 training format. More details could be checked in  https://github.com/michaelyuancb/ftp1-policy/issues/2
+[2026.06.29] You can also try [TLabel](https://github.com/liesliy/tlabel), a GUI-based data processing tool to export your tactile data with FTP-1 training format. More details could be found in  https://github.com/michaelyuancb/ftp1-policy/issues/2
 
 <a id="dp-zarr-layout"></a>
 ### 2.1 Zarr Directory Layout
