@@ -51,6 +51,8 @@ pip install -r requirements.txt
 
 如果数据集依赖 ZED2 相机输入，还需要安装 [ZED SDK Python bindings](https://www.stereolabs.com/docs/app-development/python/install)。
 
+[2026.06.29] 用户也可以尝试使用 [TLabel](https://github.com/liesliy/tlabel), 一个基于GUI的触觉数据处理工具来导出FTP-1训练所需要的zarr数据格式。 更多细节请参考 https://github.com/michaelyuancb/ftp1-policy/issues/2
+
 <a id="dp-overview-zh"></a>
 ## 2. 概览
 
