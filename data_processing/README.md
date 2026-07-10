@@ -119,6 +119,8 @@ For dexterous-hand data, along the egocentric camera viewing direction, the came
 
 For gripper and UMI-style data, we approximately align the embodiment to a closed human-hand grasp convention; refer to [definition_pose_gripper_umi.png](./definition_pose_gripper_umi.png).
 
+For more details, please refer to `docs_Illustration about Ego Data Frame.pptx` and `docs_Illustration about UMI Data Frame.pptx`.
+
 <a id="dp-observation"></a>
 ## 3. Observation
 
