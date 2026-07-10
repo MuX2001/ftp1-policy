@@ -108,9 +108,13 @@ left_hand_joints_idx / right_hand_joints_idx: (T, K)
 <side>_tactile_sensor_<group>: (T,)
 <side>_tactile_type_<group>: (T,)
 sub_task_instruction: (T,)
+
+supplementary_joints: (T, D)
 ```
 
 `T` is episode length; `H, W` are image height/width; `J` is the number of arm-joint channels; `K` is the number of hand or gripper channels; `N` is the number of tactile channels in one group; `tac_shape` is the per-channel tactile shape after the `N` axis.
+
+For embodiments with joints beyond those of the head, arms, and hands, we use an additional ``supplementary_joints`` field to store their states, where `D` denotes the number of supplementary joints.
 
 <a id="dp-pose-definition"></a>
 ### 2.3 Pose Coordinate Definition
