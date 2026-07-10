@@ -48,7 +48,7 @@ conda env remove -n uni
 Clone the repository:
 
 ```bash
-git clone https://github.com/byml-c/UniVTAC.git
+# git clone https://github.com/byml-c/UniVTAC.git
 cd UniVTAC
 ```
 
