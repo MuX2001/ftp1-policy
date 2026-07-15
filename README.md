@@ -64,7 +64,7 @@ This repository contains the FTP-1 codebase and tutorials for fine-tuning FTP-1 
 | :--- | :--- | :--- | :--- |
 | ftp1_pretrain_v0426_50kstep | [🤗 ftp1_v0426_50kstep](https://huggingface.co/MJJJJ1064/ftp1_v0426_50kstep) | [🤖 ftp1_v0426_50kstep](https://www.modelscope.cn/models/michaelyuancb/ftp1_v0426_50kstep)  | Our v0426 generalist tactile policy with 50k pretraining steps |
 | ftp1_univtac_finetune | [🤗 ftp1_univtac_finetune](https://huggingface.co/MJJJJ1064/ftp1_univtac_finetune) | [🤖 ftp1_univtac_finetune](https://www.modelscope.cn/models/michaelyuancb/ftp1_univtac_finetune)  | FTP-1-v0426 finetuned on UniVTAC benchmark, including 6 task checkpoints |
-| t3_base_encoder_rename | [Google Drive](https://drive.google.com/file/d/1tio-MurisxBR0tzRCbdfcBU-0ce91f9W/view?usp=sharing) | Renamed T3 encoder for pretraining yourself |
+| t3_base_encoder_rename | [Google Drive Link](https://drive.google.com/file/d/1tio-MurisxBR0tzRCbdfcBU-0ce91f9W/view?usp=sharing) | / | Renamed T3 encoder for pretraining yourself |
 
 - **Pretrained Datasets**
 
