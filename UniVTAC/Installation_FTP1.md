@@ -1,9 +1,58 @@
-# UniVTAC Installation Guide
+# UniVTAC Simulator and FTP1 Runtime Guide
 
-This document summarizes the installation procedure for the current UniVTAC version in this repository.
-It is based on the original installation notes in `UniVTAC/docs/Installation_org.md`, but reorganized into a single English guide with the current repository layout and scripts.
+This is the authoritative runtime guide for this fork. It documents the provided Docker images used for simulator debugging and FTP1 evaluation, followed by the retained legacy Conda build instructions.
 
-## Overview
+## Current Docker runtime
+
+Use the provided images instead of rebuilding the simulator stack. The Docker build context that produced these images is not tracked in this repository. `third_party/TacEx/docker/` is a legacy Isaac Sim 4.5 / Isaac Lab 2.1.1 recipe and does not reproduce this runtime.
+
+| Image | Use | Included runtime |
+| --- | --- | --- |
+| `user10/univtac-isaac60-lab3-tacex:curobo-permissions-prettytable` | Simulator-only debugging | Isaac Sim 6.0 runtime, Python 3.12.13, Isaac Lab 6.1.17, PyTorch 2.10.0+cu128, TacEx/UIPC, and cuRobo |
+| `user10/univtac-isaac60-lab3-tacex:ftp1-pytorch-runtime` | FTP1 policy evaluation in the simulator | The simulator-only stack plus FTP1 runtime dependencies |
+
+Both tags are packaged in `univtac-simulator-and-ftp1-images.tar`. Load it on a target machine with:
+
+```bash
+docker load -i univtac-simulator-and-ftp1-images.tar
+```
+
+The host needs a compatible NVIDIA driver, Docker, and the NVIDIA Container Toolkit. The image declares a minimum driver version of 570.169.
+
+### Debug the simulator without FTP1
+
+Mount only `UniVTAC/` and use the simulator-only tag. The image has no bare `python` command; invoke the Isaac Sim interpreter explicitly.
+
+```bash
+cd <repository-root>
+docker run --rm -it --gpus all --network host -u "<host-uid>:<host-gid>" -v "<repository-root>/UniVTAC:/workspace/UniVTAC" -w /workspace/UniVTAC --entrypoint /bin/bash user10/univtac-isaac60-lab3-tacex:curobo-permissions-prettytable
+
+/isaac-sim/python.sh scripts/collect_data.py --help
+```
+
+The image already embeds TacEx at `/opt/tacex` and cuRobo at `/opt/curobo`. Do not overlay `UniVTAC/third_party/TacEx` onto `/opt/tacex` unless debugging TacEx itself.
+
+### Run FTP1 in the simulator
+
+The FTP1 runtime image contains dependencies but intentionally does not contain this repository `openpi` source. Mount the full repository, expose both source roots through `PYTHONPATH`, and separately mount or copy the checkpoint directory.
+
+```bash
+cd <repository-root>
+docker run --rm --gpus all --network host -u "<host-uid>:<host-gid>" -v "<repository-root>:/workspace" -v "<checkpoint-parent>:/checkpoints:ro" -w /workspace/UniVTAC -e PYTHONPATH=/workspace/src:/workspace/packages/openpi-client/src --entrypoint /isaac-sim/python.sh user10/univtac-isaac60-lab3-tacex:ftp1-pytorch-runtime scripts/eval_ftp1.py --checkpoint_dir /checkpoints/<experiment>/<step> --domain_name <domain-name> --task_list insert_HDMI --task_config contact.yml --total_num 1
+```
+
+The evaluator launches Isaac Lab headlessly with cameras enabled, the headless rendering kit, no livestream, and `--reset-user`. Start with one worker; each additional worker starts a separate Isaac Sim process. Use `--low_memory` to place FTP1 inference on CPU when the GPU cannot hold both the model and simulator.
+
+### Fork-specific dependency and loader changes
+
+- The root project now declares Python `>=3.10`; the legacy Conda path therefore uses Python 3.10, while the current Docker runtime uses Python 3.12.
+- The Docker runtime owns its Isaac Sim and PyTorch stack. Do not run a normal dependency-resolving `pip install -e .` inside it, because it can replace simulator-pinned packages. The legacy installer uses `pip install --no-deps -e` for `openpi` and `openpi-client`.
+- FTP1 checkpoint weights are read and applied on CPU, then the complete model is moved once to its requested device. This avoids very slow direct safetensors-to-CUDA loading in the Isaac Sim runtime. Set `FTP1_LOAD_DIAGNOSTICS=1` to emit load-stage timing, RSS, and allocated-VRAM telemetry.
+- `uv.lock` was regenerated after lowering the Python requirement. It records the resolved development environment; it is not the mechanism for changing the Docker runtime packages.
+
+## Legacy Conda build (Isaac Sim 4.5 / Isaac Lab 2.1.1)
+
+The remaining sections document the older source-based setup. Use them only when rebuilding the legacy Conda environment; they are not compatible with the current Docker images described above.
 
 UniVTAC depends on the following major components:
 
@@ -169,7 +218,7 @@ cd /path/to/IsaacLab
 
 ## Step 5: Install FTP1 inference into the Isaac Sim environment
 
-First update line 6 of `../pyproject.toml` to `requires-python = ">=3.10"`.
+This fork already declares `requires-python = ">=3.10"` in the repository-root `pyproject.toml`; no manual edit is needed.
 
 Then from the `ftp1` repository root, run:
 
