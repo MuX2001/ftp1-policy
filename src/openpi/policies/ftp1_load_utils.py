@@ -8,6 +8,9 @@ so it is safe to use inside Isaac Sim / Isaac Lab where typing_extensions may be
 import gc
 import json
 import logging
+import os
+import resource
+import time
 import pathlib
 
 import safetensors
@@ -23,6 +26,17 @@ _SKIP_CHECKPOINT_KEYS = {
     "paligemma_with_expert.gemma_tactile_expert.lm_head.weight",
     "paligemma_with_expert.gemma_tactile_pred_expert.lm_head.weight",
 }
+
+
+def _diagnostic_stage(name: str) -> None:
+    """Emit loader telemetry only when FTP1_LOAD_DIAGNOSTICS=1."""
+    if os.environ.get("FTP1_LOAD_DIAGNOSTICS") != "1":
+        return
+    rss_mib = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0
+    vram_mib = 0.0
+    if torch.cuda.is_available():
+        vram_mib = torch.cuda.memory_allocated() / (1024.0 * 1024.0)
+    print("FTP1_LOAD_STAGE:%s:time=%.3f:rss_mib=%.1f:vram_mib=%.1f" % (name, time.time(), rss_mib, vram_mib), flush=True)
 
 
 def _unwrap_compile_model(model: torch.nn.Module) -> torch.nn.Module:
@@ -105,9 +119,15 @@ def _pop_state_dict_prefix(
 def _load_ftp1_model_weights(
     model: torch.nn.Module,
     ckpt_dir: pathlib.Path,
-    device: str | torch.device = "cuda",
+    device: str | torch.device = "cpu",
 ) -> None:
-    """Load FTP1 model weights from checkpoint directory (safetensors + hpt_tokenizer)."""
+    """Load FTP1 model weights from checkpoint directory (safetensors + hpt_tokenizer).
+
+    The model is intentionally kept on CPU during this operation. Direct
+    safetensors-to-CUDA reads are exceptionally slow in the Isaac Sim runtime
+    on this host; moving the fully populated model to its requested device is
+    handled once by ``load_ftp1_model`` after state-dict application.
+    """
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
         gc.collect()
@@ -125,7 +145,9 @@ def _load_ftp1_model_weights(
     detached_tokenizers = _detach_tactile_tokenizers_for_checkpoint_io(model_to_load)
     if detached_tokenizers:
         try:
+            _diagnostic_stage("checkpoint_read_started")
             checkpoint_state_dict = safetensors.torch.load_file(safetensors_path, device=str(device))
+            _diagnostic_stage("checkpoint_read_completed")
             checkpoint_state_dict = _filter_checkpoint_state_dict(checkpoint_state_dict)
             student_tokenizer_state_dict = _pop_state_dict_prefix(
                 checkpoint_state_dict,
@@ -135,7 +157,9 @@ def _load_ftp1_model_weights(
                 checkpoint_state_dict,
                 "ema_hpt_tactile_encoder.tokenizers.",
             )
+            _diagnostic_stage("weights_apply_started")
             load_result = model_to_load.load_state_dict(checkpoint_state_dict, strict=False)
+            _diagnostic_stage("weights_apply_completed")
             missing_keys = list(load_result.missing_keys)
             unexpected_keys = list(load_result.unexpected_keys)
             if missing_keys:
@@ -146,11 +170,15 @@ def _load_ftp1_model_weights(
         finally:
             _restore_tactile_tokenizers(detached_tokenizers)
     else:
+        _diagnostic_stage("checkpoint_read_started")
         checkpoint_state_dict = safetensors.torch.load_file(safetensors_path, device=str(device))
+        _diagnostic_stage("checkpoint_read_completed")
         checkpoint_state_dict = _filter_checkpoint_state_dict(checkpoint_state_dict)
         student_tokenizer_state_dict = {}
         ema_tokenizer_state_dict = {}
+        _diagnostic_stage("weights_apply_started")
         load_result = model_to_load.load_state_dict(checkpoint_state_dict, strict=False)
+        _diagnostic_stage("weights_apply_completed")
         missing_keys = list(load_result.missing_keys)
         unexpected_keys = list(load_result.unexpected_keys)
         if missing_keys:
@@ -223,8 +251,10 @@ def load_ftp1_model(
     if not model_config_path.exists():
         raise FileNotFoundError(f"model_config.json not found at {model_config_path}")
 
+    _diagnostic_stage("config_read_started")
     with open(model_config_path, "r") as f:
         model_config_dict = json.load(f)
+    _diagnostic_stage("config_read_completed")
 
     if tactile_input_config_file is None and model_config_dict.get("use_tactile_input", False):
         tactile_config_path = ckpt_dir / "tactile_input_config_file.json"
@@ -262,12 +292,18 @@ def load_ftp1_model(
                 **future_tactile_cfg
             )
 
+    _diagnostic_stage("model_constructor_started")
     model_config = ftp1_model_config.FTP1ModelConfig(**model_config_dict)
-    model = openpi.models_pytorch.ftp1_pytorch.FTP1Pytorch(model_config).to(device)
+    model = openpi.models_pytorch.ftp1_pytorch.FTP1Pytorch(model_config)
+    _diagnostic_stage("model_constructor_completed")
 
     logging.info(f"Created FTP1 model from checkpoint at {ckpt_dir}")
-    logging.info("Loading model weights from checkpoint...")
-    _load_ftp1_model_weights(model, ckpt_dir, device)
+    logging.info("Loading model weights from checkpoint on CPU...")
+    _load_ftp1_model_weights(model, ckpt_dir, device="cpu")
+    _diagnostic_stage("model_weights_completed")
+    _diagnostic_stage("device_transfer_started")
+    model = model.to(device)
+    _diagnostic_stage("device_transfer_completed")
     logging.info(f"Model weights loaded successfully from checkpoint at {ckpt_dir}")
 
     return model, model_config, ckpt_dir

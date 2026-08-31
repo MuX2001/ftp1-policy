@@ -5,6 +5,32 @@ wandb/
 results/
 output/
 tmp/
+
+# Local agent/tool state.
+.claude/
+.codex/
+.agents/
+
+# Local ML artifacts. Keep this scoped: source modules under src/**/models/ are code.
+/models/
+/model_cache/
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+*.onnx
+*.h5
+*.hdf5
+*.npz
+
+# Local experiment outputs.
+/eval_result/
+/eval_results/
+/runs/
+/logs/
+/tensorboard/
+/mlruns/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
