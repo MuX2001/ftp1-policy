@@ -7,7 +7,7 @@
 
 ## Installation
 
-See the [Simulator and FTP1 Runtime Guide](./Installation_FTP1.md) for the current Docker simulator, FTP1 evaluation, dependency changes, and legacy source-build instructions.
+See the [Installation Guide](./docs/Installation.md) for detailed setup instructions, including installing the environment, installing TacEx from the modified local source and setting up cuRobo for motion planning.
 
 ## Task Gallery
 

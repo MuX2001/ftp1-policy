@@ -223,4 +223,8 @@ figure
 plot_actions_comparison.py
 parse_data_envs
 .cursor
+
+# Local failed TacEx/uipc builds: generated CMake and vcpkg output.
+/UniVTAC/third_party/TacEx/source/tacex_uipc/build*/
+/UniVTAC/third_party/TacEx/source/tacex_uipc/libuipc/build*/
 .deps

@@ -92,6 +92,7 @@ class BaseTaskCfg(DirectRLEnvCfg):
     save_frequency = 1
     video_frequency = 1
     render_frequency = 0
+    encode_images: bool = True
     video_size = (960, 320)  # (width, height); keep 320 to avoid upscaling low-res camera (would look blocky)
 
     ui_window_class_type = BaseEnvWindow
@@ -668,7 +669,11 @@ class BaseTask(UipcRLEnv):
  
     def save_to_hdf5(self):
         self.save_path.parent.mkdir(parents=True, exist_ok=True)
-        HDF5Handler().pkls_to_hdf5(self.tmp_save_dir, self.save_path)
+        HDF5Handler().pkls_to_hdf5(
+            self.tmp_save_dir,
+            self.save_path,
+            encode_images=self.cfg.encode_images,
+        )
     
     def _save_metadata(self):
         self.metadata_path.parent.mkdir(parents=True, exist_ok=True)

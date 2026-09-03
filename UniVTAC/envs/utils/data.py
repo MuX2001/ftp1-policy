@@ -216,7 +216,7 @@ class HDF5Handler:
         for k, v in data.items():
             if isinstance(v, dict):
                 subgroup = node.create_group(k)
-                self.dict_to_hdf5(subgroup, v)
+                self.dict_to_hdf5(subgroup, v, encode_images=encode_images)
             elif isinstance(v, (list, np.ndarray)):
                 if "rgb" in k and encode_images:
                     v = np.array(v)
@@ -231,10 +231,16 @@ class HDF5Handler:
             else:
                 raise ValueError(f"Unsupported data type for key '{k}': {type(v)}")
         
-    def pkls_to_hdf5(self, pkl_dir, hdf5_path):
+    def pkls_to_hdf5(self, pkl_dir, hdf5_path, encode_images=True):
+        """Convert collected frames to HDF5.
+
+        ``encode_images=False`` preserves RGB tensors exactly as produced by the
+        renderer. The default JPEG encoding is retained for regular dataset
+        collection, where disk use is more important than pixel identity.
+        """
         data = self.gather(pkl_dir)
         with h5py.File(hdf5_path, "w") as f:
-            self.dict_to_hdf5(f, data)
+            self.dict_to_hdf5(f, data, encode_images=encode_images)
 
 class VideoHandler:
     def __init__(self):
